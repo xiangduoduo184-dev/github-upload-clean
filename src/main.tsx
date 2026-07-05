@@ -411,6 +411,7 @@ function VideoModal({
 
 function App() {
   const appRef = React.useRef<HTMLDivElement | null>(null);
+  const heroVideoRef = React.useRef<HTMLVideoElement | null>(null);
   const [heroVideoEnabled, setHeroVideoEnabled] = React.useState(false);
   const [activeVideo, setActiveVideo] = React.useState<PortfolioVideo | null>(null);
 
@@ -426,6 +427,17 @@ function App() {
       }
     };
   }, []);
+
+  React.useEffect(() => {
+    if (!heroVideoEnabled || !heroVideoRef.current) {
+      return;
+    }
+
+    heroVideoRef.current.muted = true;
+    void heroVideoRef.current.play().catch(() => {
+      // Some browsers wait until the file has buffered before allowing autoplay.
+    });
+  }, [heroVideoEnabled]);
 
   React.useLayoutEffect(() => {
     const root = appRef.current;
@@ -572,13 +584,18 @@ function App() {
       <main>
         <section className="hero-section relative isolate min-h-screen overflow-hidden px-5 pb-16 pt-24 sm:px-8 lg:px-10">
           <video
+            ref={heroVideoRef}
             className="anim-hero-video absolute inset-0 -z-30 h-full w-full object-cover"
             src={heroVideoEnabled ? HERO_VIDEO : undefined}
             autoPlay
             muted
             loop
             playsInline
-            preload="none"
+            preload="metadata"
+            onCanPlay={(event) => {
+              event.currentTarget.muted = true;
+              void event.currentTarget.play().catch(() => undefined);
+            }}
           />
           <div className="hero-media absolute inset-0 -z-20" />
           <div className="hero-scanlines absolute inset-0 -z-10" />

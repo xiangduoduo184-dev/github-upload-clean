@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #080808;
+  font-family: 'Inter', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.opening-curtain {
+  will-change: transform;
+}
+
+.opening-mark,
+.anim-nav,
+.anim-hero-video,
+.hero-word,
+.hero-word-mask,
+.hero-kicker,
+.hero-name,
+.hero-subtitle,
+.hero-cta,
+.hero-play,
+.hero-status-pill,
+.motion-title,
+.motion-card,
+.motion-media {
+  will-change: transform, opacity, clip-path, filter;
+}
+
+.hero-word-mask,
+.motion-title,
+.motion-card,
+.motion-media {
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.hero-media {
+  background:
+    radial-gradient(circle at 74% 34%, rgba(184, 138, 74, 0.24), transparent 28%),
+    radial-gradient(circle at 87% 72%, rgba(105, 74, 43, 0.26), transparent 30%),
+    linear-gradient(135deg, rgba(4, 4, 4, 0.82) 0%, rgba(34, 25, 18, 0.48) 44%, rgba(5, 5, 5, 0.88) 100%);
+}
+
+.hero-media::before {
+  position: absolute;
+  inset: 11% 6% 12% auto;
+  width: min(42rem, 70vw);
+  content: '';
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(145deg, rgba(202, 166, 106, 0.12), rgba(155, 95, 53, 0.1), rgba(255, 255, 255, 0.04));
+  background-size: 48px 48px, 48px 48px, 100% 100%;
+  clip-path: polygon(12% 0, 100% 10%, 88% 100%, 0 88%);
+  opacity: 0.88;
+  filter: saturate(1.15);
+}
+
+.hero-media::after {
+  position: absolute;
+  right: 10%;
+  bottom: 12%;
+  width: min(20rem, 42vw);
+  aspect-ratio: 1;
+  content: '';
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background:
+    linear-gradient(120deg, transparent 0 46%, rgba(255, 255, 255, 0.52) 47% 48%, transparent 49%),
+    linear-gradient(35deg, rgba(184, 138, 74, 0.24), rgba(80, 58, 39, 0.2));
+  clip-path: polygon(0 18%, 74% 0, 100% 72%, 24% 100%);
+}
+
+.hero-scanlines {
+  background:
+    repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 6px),
+    radial-gradient(circle at 18% 46%, rgba(184, 138, 74, 0.15), transparent 30%),
+    radial-gradient(circle at 78% 58%, rgba(255, 255, 255, 0.08), transparent 28%);
+  mix-blend-mode: soft-light;
+  opacity: 0.58;
+}
+
+.hero-title {
+  color: #f1eee7;
+  font-style: italic;
+  transform: translateZ(0);
+  text-shadow:
+    2px 0 0 rgba(184, 138, 74, 0.42),
+    -3px 0 0 rgba(255, 255, 255, 0.12),
+    0 0 34px rgba(184, 138, 74, 0.22);
+}
+
+.motion-media video {
+  transform: scale(1.08);
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-curtain {
+    display: none;
+  }
+
+  .opening-mark,
+  .anim-nav,
+  .anim-hero-video,
+  .hero-word,
+  .hero-word-mask,
+  .hero-kicker,
+  .hero-name,
+  .hero-subtitle,
+  .hero-cta,
+  .hero-play,
+  .hero-status-pill,
+  .motion-title,
+  .motion-card,
+  .motion-media,
+  .motion-media video {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    clip-path: none !important;
+  }
+}
+
+.hero-title-outline {
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(241, 238, 231, 0.86);
+  text-shadow:
+    3px 0 0 rgba(184, 138, 74, 0.28),
+    -2px 0 0 rgba(0, 0, 0, 0.45);
+}
+
+.section-kicker {
+  color: #f08a3c;
+  font-size: 0.875rem;
+  font-weight: 900;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.portfolio-poster {
+  position: relative;
+  isolation: isolate;
+}
+
+.portfolio-poster::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+  opacity: 0.68;
+}
+
+.portfolio-poster-1 {
+  background: linear-gradient(135deg, #2a1212, #ad3e25 48%, #f08a3c);
+}
+
+.portfolio-poster-2 {
+  background: linear-gradient(135deg, #121716, #1f6f68 48%, #f4d35e);
+}
+
+.portfolio-poster-3 {
+  background: linear-gradient(135deg, #171211, #5e3d2d 44%, #f08a3c);
+}
+
+.portfolio-poster-4 {
+  background: linear-gradient(135deg, #0b0b0d, #2e2f36 45%, #ad3e25);
+}
+
+@media (max-width: 768px) {
+  .hero-media::before {
+    inset: 16% -18% auto auto;
+    height: 48%;
+    width: 92vw;
+  }
+
+  .hero-media::after {
+    right: -10%;
+    bottom: 14%;
+    width: 54vw;
+  }
+}

@@ -24,6 +24,7 @@ type PortfolioVideo = {
   type: string;
   description: string;
   videoSrc: string;
+  externalUrl?: string;
 };
 
 const HERO_VIDEO = '/videos/jidaozhe-demo.mp4';
@@ -99,6 +100,7 @@ const videos: PortfolioVideo[] = [
     type: '预告片',
     description: '高概念视觉预告片，用于展示电影感运镜、节奏控制与光影氛围。',
     videoSrc: '/videos/jidaozhe-demo.mp4',
+    externalUrl: 'https://www.bilibili.com/video/BV1a8MM6PEUT/',
   },
   {
     title: '听见',
@@ -261,6 +263,15 @@ function VideoCard({
     videoRef.current.currentTime = 0;
   };
 
+  const handleOpen = () => {
+    if (video.externalUrl) {
+      window.open(video.externalUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    onOpen(video);
+  };
+
   return (
     <article
       className="motion-card group overflow-hidden rounded-[8px] border border-white/10 bg-[#151515] shadow-2xl shadow-black/20"
@@ -270,9 +281,9 @@ function VideoCard({
     >
       <button
         type="button"
-        onClick={() => onOpen(video)}
+        onClick={handleOpen}
         className="block w-full text-left"
-        aria-label={`播放${video.title}`}
+        aria-label={video.externalUrl ? `在B站观看${video.title}` : `播放${video.title}`}
       >
         <div className="motion-media relative aspect-video overflow-hidden bg-[#202020]">
           <video
@@ -298,6 +309,11 @@ function VideoCard({
               <Play size={25} fill="currentColor" />
             </span>
           </div>
+          {video.externalUrl && (
+            <div className="absolute bottom-4 right-4 rounded-full border border-white/25 bg-black/45 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur">
+              B站观看
+            </div>
+          )}
         </div>
       </button>
       <div className="space-y-3 p-5">

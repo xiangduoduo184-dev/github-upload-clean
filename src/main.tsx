@@ -94,61 +94,70 @@ const videos: PortfolioVideo[] = [
     type: 'AI短剧',
     description: '女频情绪向短剧片段，适合展示人物关系、氛围营造与情感冲突。',
     videoSrc: '/videos/nvpin-nuelian-demo.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1Uaj7ZYEhDEM6FC2goGl9Sg?pwd=k1s5',
   },
   {
     title: '极盗者demo',
     type: '预告片',
     description: '高概念视觉预告片，用于展示电影感运镜、节奏控制与光影氛围。',
     videoSrc: '/videos/jidaozhe-demo.mp4',
-    externalUrl: 'https://www.bilibili.com/video/BV1a8MM6PEUT/',
+    externalUrl: 'https://pan.baidu.com/s/1zg3cFUtvFmCSVrUi3zDrdQ?pwd=y7zn',
   },
   {
     title: '听见',
     type: '公益短片',
     description: '公益主题短片，聚焦真实情绪、人物关系与温暖克制的影像表达。',
     videoSrc: '/videos/tingjian.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1tADL5DX-exnGgEDOqL6GCg?pwd=e5r3',
   },
   {
     title: 'EP02-DEMO',
     type: '真人短剧',
     description: '重生年代真人短剧片段，展示年代叙事、人物状态和连续剧情画面。',
     videoSrc: '/videos/ep02-demo.mp4',
+    externalUrl: 'https://pan.baidu.com/s/15zCvWGXfYyV8giewFUcTdQ?pwd=gqxn',
   },
   {
     title: '攻略你你不理demo',
     type: 'AI动漫',
     description: 'AI辅助动漫项目片段，展示连续角色动画、分镜生成和风格统一。',
     videoSrc: '/videos/gonglue-ni-ni-buli-demo.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1mXvgu-uz5y7_y64aMf4p-A?pwd=7d22',
   },
   {
     title: '科普不当法人demo',
     type: '科普短片',
     description: '知识科普类短视频作品，适合展示信息转译、脚本节奏和视觉包装。',
     videoSrc: '/videos/kepu-budang-faren-demo.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1G8MIF7hcso3fpb5ibkR9ng?pwd=8nsu',
   },
   {
     title: '游戏cg测试',
     type: '游戏CG',
     description: '游戏风格CG测试片段，展示风格化画面、动作镜头与视觉冲击力。',
     videoSrc: '/videos/youxi-cg-ceshi.mp4',
+    externalUrl: 'https://pan.baidu.com/s/15LuT_G8Yaed5t3VOt1ob6g?pwd=rzxr',
   },
   {
     title: '正大集团demo',
     type: '品牌广告',
     description: '品牌广告宣传片片段，展示商业视觉、产品场景与统一调性控制。',
     videoSrc: '/videos/zhengda-jituan-demo.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1UujJ6bDxzpvNqZESVwAXNg?pwd=kt9p',
   },
   {
     title: '暗昼',
     type: '概念短片',
     description: '氛围向概念短片，适合展示暗调美术、镜头情绪和世界观质感。',
     videoSrc: '/videos/anzhou.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1-QJNXuhR9ZP3wPYCjdjH8Q?pwd=xy7q',
   },
   {
     title: '1沟通',
     type: '节日短片',
     description: '父亲节主题短片，展示节日定制内容、情绪叙事和温情表达。',
     videoSrc: '/videos/fuqinjie-1-goutong.mp4',
+    externalUrl: 'https://pan.baidu.com/s/1p88HD0Hv3D1ZSDqf1Rvzrg?pwd=dyuy',
   },
 ];
 
@@ -283,7 +292,7 @@ function VideoCard({
         type="button"
         onClick={handleOpen}
         className="block w-full text-left"
-        aria-label={video.externalUrl ? `在B站观看${video.title}` : `播放${video.title}`}
+        aria-label={video.externalUrl ? `在网盘观看${video.title}` : `播放${video.title}`}
       >
         <div className="motion-media relative aspect-video overflow-hidden bg-[#202020]">
           <video
@@ -311,7 +320,7 @@ function VideoCard({
           </div>
           {video.externalUrl && (
             <div className="absolute bottom-4 right-4 rounded-full border border-white/25 bg-black/45 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur">
-              B站观看
+              网盘观看
             </div>
           )}
         </div>

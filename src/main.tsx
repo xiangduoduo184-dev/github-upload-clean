@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import BorderGlow from './BorderGlow';
 import './index.css';
+import { selectVideoDelivery } from './videoDelivery';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,6 +25,7 @@ type PortfolioVideo = {
   type: string;
   description: string;
   videoSrc: string;
+  hlsSrc?: string;
   externalUrl?: string;
 };
 
@@ -101,6 +103,7 @@ const videos: PortfolioVideo[] = [
     type: '预告片',
     description: '高概念视觉预告片，用于展示电影感运镜、节奏控制与光影氛围。',
     videoSrc: '/videos/jidaozhe-demo.mp4',
+    hlsSrc: '/hls/jidaozhe-demo/index.m3u8',
     externalUrl: 'https://pan.baidu.com/s/1zg3cFUtvFmCSVrUi3zDrdQ?pwd=y7zn',
   },
   {
@@ -236,6 +239,63 @@ function Navigation() {
   );
 }
 
+type HlsVideoProps = React.VideoHTMLAttributes<HTMLVideoElement> & {
+  hlsSrc?: string;
+};
+
+const HlsVideo = React.forwardRef<HTMLVideoElement, HlsVideoProps>(
+  ({ hlsSrc, src, autoPlay, ...props }, forwardedRef) => {
+    const localRef = React.useRef<HTMLVideoElement | null>(null);
+
+    React.useImperativeHandle(forwardedRef, () => localRef.current!);
+
+    React.useEffect(() => {
+      const element = localRef.current;
+      if (!element || !hlsSrc) {
+        return undefined;
+      }
+
+      if (element.canPlayType('application/vnd.apple.mpegurl')) {
+        element.src = hlsSrc;
+        return () => {
+          element.removeAttribute('src');
+          element.load();
+        };
+      }
+
+      let disposed = false;
+      let hls: import('hls.js').default | undefined;
+
+      void import('hls.js').then(({ default: Hls }) => {
+        if (disposed || !Hls.isSupported()) {
+          return;
+        }
+
+        hls = new Hls({ enableWorker: true });
+        hls.loadSource(hlsSrc);
+        hls.attachMedia(element);
+
+        if (autoPlay) {
+          hls.on(Hls.Events.MANIFEST_PARSED, () => {
+            void element.play().catch(() => {
+              // Controls remain available if the browser declines autoplay.
+            });
+          });
+        }
+      });
+
+      return () => {
+        disposed = true;
+        hls?.destroy();
+      };
+    }, [autoPlay, hlsSrc]);
+
+    return <video ref={localRef} src={hlsSrc ? undefined : src} autoPlay={autoPlay} {...props} />;
+  },
+);
+
+HlsVideo.displayName = 'HlsVideo';
+
 function VideoCard({
   video,
   onOpen,
@@ -245,6 +305,7 @@ function VideoCard({
 }) {
   const videoRef = React.useRef<HTMLVideoElement | null>(null);
   const [previewEnabled, setPreviewEnabled] = React.useState(false);
+  const delivery = selectVideoDelivery(video);
 
   const handlePreview = async () => {
     setPreviewEnabled(true);
@@ -273,8 +334,8 @@ function VideoCard({
   };
 
   const handleOpen = () => {
-    if (video.externalUrl) {
-      window.open(video.externalUrl, '_blank', 'noopener,noreferrer');
+    if (delivery.kind === 'external') {
+      window.open(delivery.src, '_blank', 'noopener,noreferrer');
       return;
     }
 
@@ -292,12 +353,13 @@ function VideoCard({
         type="button"
         onClick={handleOpen}
         className="block w-full text-left"
-        aria-label={video.externalUrl ? `在网盘观看${video.title}` : `播放${video.title}`}
+        aria-label={delivery.kind === 'external' ? `在网盘观看${video.title}` : `播放${video.title}`}
       >
         <div className="motion-media relative aspect-video overflow-hidden bg-[#202020]">
-          <video
+          <HlsVideo
             ref={videoRef}
             src={previewEnabled ? video.videoSrc : undefined}
+            hlsSrc={previewEnabled && delivery.kind === 'hls' ? delivery.src : undefined}
             muted
             loop
             playsInline
@@ -318,9 +380,14 @@ function VideoCard({
               <Play size={25} fill="currentColor" />
             </span>
           </div>
-          {video.externalUrl && (
+          {delivery.kind === 'external' && (
             <div className="absolute bottom-4 right-4 rounded-full border border-white/25 bg-black/45 px-3 py-1 text-xs font-bold text-white/90 backdrop-blur">
               网盘观看
+            </div>
+          )}
+          {delivery.kind === 'hls' && (
+            <div className="absolute bottom-4 right-4 rounded-full border border-[#caa66a]/45 bg-black/55 px-3 py-1 text-xs font-bold text-[#e8c78d] backdrop-blur">
+              站内播放
             </div>
           )}
         </div>
@@ -367,6 +434,8 @@ function VideoModal({
     return null;
   }
 
+  const delivery = selectVideoDelivery(video);
+
   return (
     <div
       className="fixed inset-0 z-[120] grid place-items-center overflow-y-auto bg-black/86 px-4 py-6 backdrop-blur-md sm:px-8"
@@ -391,8 +460,9 @@ function VideoModal({
           </div>
         </div>
         <div className="grid max-h-[68vh] place-items-center overflow-hidden rounded-[8px] border border-white/12 bg-black shadow-2xl shadow-black/50 sm:max-h-[70vh]">
-          <video
-            src={video.videoSrc}
+          <HlsVideo
+            src={delivery.kind === 'native' ? delivery.src : undefined}
+            hlsSrc={delivery.kind === 'hls' ? delivery.src : undefined}
             controls
             autoPlay
             playsInline

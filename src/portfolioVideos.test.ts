@@ -4,9 +4,11 @@ import { portfolioVideos } from './portfolioVideos';
 describe('portfolioVideos', () => {
   it('keeps the selected 17 works inside the site as HLS playback', () => {
     expect(portfolioVideos.map((video) => video.title)).toEqual([
-      '小峙模块创意广告',
-      '脉动创意广告',
+      '极盗者demo',
       '暗昼·金陵',
+      '脉动创意广告',
+      '外星人系列 01',
+      '小峙模块创意广告',
       '科技的温度',
       '沟通',
       '科普不当法人demo',
@@ -14,9 +16,7 @@ describe('portfolioVideos', () => {
       '女频虐恋demo',
       '重生年代',
       '攻略你你不理demo',
-      '极盗者demo',
       '我的斯密斯室友',
-      '外星人系列 01',
       '外星人系列 02',
       '外星人系列 03',
       '当我试图驯服AI',

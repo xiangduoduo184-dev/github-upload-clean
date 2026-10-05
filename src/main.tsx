@@ -628,6 +628,15 @@ function App() {
 
               <div className="hero-cta mt-10 flex flex-col gap-5 sm:flex-row sm:items-center">
                 <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#f3d39c] bg-white px-8 py-4 text-base font-black text-black shadow-[0_0_38px_rgba(202,166,106,0.52)] transition hover:-translate-y-0.5 hover:bg-[#f3d39c]"
+                >
+                  查看完整简历
+                  <FileText size={20} />
+                </a>
+                <a
                   href="#作品"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-[#caa66a] px-7 py-3.5 text-sm font-black text-black shadow-[0_0_28px_rgba(202,166,106,0.22)] transition hover:bg-white"
                 >
@@ -639,15 +648,6 @@ function App() {
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-[#caa66a]/45 bg-black/28 px-7 py-3.5 text-sm font-black text-white transition hover:bg-[#caa66a]/16"
                 >
                   了解经历
-                </a>
-                <a
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-black/28 px-7 py-3.5 text-sm font-black text-white transition hover:bg-white hover:text-black"
-                >
-                  查看简历
-                  <FileText size={18} />
                 </a>
               </div>
             </div>

@@ -10,11 +10,18 @@ const hls = (slug: string) => `/hls/${slug}/index.m3u8`;
 
 export const portfolioVideos: PortfolioVideo[] = [
   {
-    title: '小峙模块创意广告',
-    type: '品牌创意广告',
-    description: '围绕产品卖点完成剧情化创意表达，抖音、快手双端累计 60 万播放、1.1 万点赞，并成功售出 6 单产品。',
-    videoSrc: '/videos/small-module-ad.mp4',
-    hlsSrc: hls('small-module-ad'),
+    title: '极盗者demo',
+    type: '预告片',
+    description: '高概念视觉预告片，展示电影感运镜、节奏控制与光影氛围。',
+    videoSrc: '/videos/jidaozhe-demo.mp4',
+    hlsSrc: hls('jidaozhe-demo'),
+  },
+  {
+    title: '暗昼·金陵',
+    type: '长剧项目',
+    description: '长剧项目视觉片段，负责从剧本方向到成片的全流程制作；项目已被爱奇艺收购。',
+    videoSrc: '/videos/anzhou-jinling.mp4',
+    hlsSrc: hls('anzhou-jinling'),
   },
   {
     title: '脉动创意广告',
@@ -24,11 +31,18 @@ export const portfolioVideos: PortfolioVideo[] = [
     hlsSrc: hls('pulse-ad'),
   },
   {
-    title: '暗昼·金陵',
-    type: '长剧项目',
-    description: '长剧项目视觉片段，负责从剧本方向到成片的全流程制作；项目已被爱奇艺收购。',
-    videoSrc: '/videos/anzhou-jinling.mp4',
-    hlsSrc: hls('anzhou-jinling'),
+    title: '外星人系列 01',
+    type: 'AI荒诞轻喜剧',
+    description: 'AI 荒诞轻喜剧系列，以人外设定制造日常反差和节奏型包袱，展示连续角色与轻量叙事。',
+    videoSrc: '/videos/alien-series-01.mp4',
+    hlsSrc: hls('alien-series-01'),
+  },
+  {
+    title: '小峙模块创意广告',
+    type: '品牌创意广告',
+    description: '围绕产品卖点完成剧情化创意表达，抖音、快手双端累计 60 万播放、1.1 万点赞，并成功售出 6 单产品。',
+    videoSrc: '/videos/small-module-ad.mp4',
+    hlsSrc: hls('small-module-ad'),
   },
   {
     title: '科技的温度',
@@ -80,25 +94,11 @@ export const portfolioVideos: PortfolioVideo[] = [
     hlsSrc: hls('gonglue'),
   },
   {
-    title: '极盗者demo',
-    type: '预告片',
-    description: '高概念视觉预告片，展示电影感运镜、节奏控制与光影氛围。',
-    videoSrc: '/videos/jidaozhe-demo.mp4',
-    hlsSrc: hls('jidaozhe-demo'),
-  },
-  {
     title: '我的斯密斯室友',
     type: 'AI搞笑短片',
     description: '以室友关系为核心的轻喜剧短片，用反差设定和快节奏包袱推进剧情。',
     videoSrc: '/videos/smith-roommate.mp4',
     hlsSrc: hls('smith-roommate'),
-  },
-  {
-    title: '外星人系列 01',
-    type: 'AI荒诞轻喜剧',
-    description: 'AI 荒诞轻喜剧系列，以人外设定制造日常反差和节奏型包袱，展示连续角色与轻量叙事。',
-    videoSrc: '/videos/alien-series-01.mp4',
-    hlsSrc: hls('alien-series-01'),
   },
   {
     title: '外星人系列 02',

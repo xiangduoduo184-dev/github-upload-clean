@@ -8,6 +8,7 @@ import {
   BookOpen,
   Clapperboard,
   Film,
+  FileText,
   Layers3,
   Menu,
   Play,
@@ -17,25 +18,17 @@ import {
 import BorderGlow from './BorderGlow';
 import './index.css';
 import { selectVideoDelivery } from './videoDelivery';
+import { heroVideo, portfolioVideos, type PortfolioVideo } from './portfolioVideos';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type PortfolioVideo = {
-  title: string;
-  type: string;
-  description: string;
-  videoSrc: string;
-  hlsSrc?: string;
-  externalUrl?: string;
-};
-
-const HERO_VIDEO = '/videos/jidaozhe-demo.mp4';
+const HERO_HLS = heroVideo.hlsSrc;
 
 const stats = [
-  { value: '50集', label: 'AI辅助动漫单季视觉生成管控' },
-  { value: '20+', label: 'AIGC制作团队管理与培训' },
-  { value: '10节', label: '体系化AI漫剧录播课程' },
-  { value: '35%', label: '提示词与SOP提升协作效率' },
+  { value: '60万', label: '抖音、快手双端播放量' },
+  { value: '1.1万', label: '短视频互动点赞' },
+  { value: '6单', label: '内容带动产品成交' },
+  { value: '50集', label: 'AI辅助动漫单季视觉生成' },
 ];
 
 const skills = [
@@ -69,19 +62,19 @@ const workflow = [
 
 const projects = [
   {
-    title: '《攻略你你不理》',
-    tag: 'AI动漫 / 连续剧集',
-    text: '在导演统筹下带领团队完成AI辅助动漫视觉生成，从分镜大模型生成到后期风格微调全程管控。',
+    title: '小峙模块创意广告',
+    tag: '品牌广告 / 内容转化',
+    text: '围绕真实电量显示、蓝牙稳定等产品卖点设计剧情反转，双端累计60万播放、1.1万点赞并带来6单成交。',
   },
   {
-    title: '正大集团广告宣传片',
-    tag: '品牌广告 / AIGC视觉',
-    text: '负责关键场景视觉生成与风格统一，结合banana、Seedance 2.0与lovart完成自然、健康、科技感的影像表达。',
+    title: '暗昼·金陵',
+    tag: '长剧项目 / 视觉统筹',
+    text: '从剧本方向、分镜拆解到角色场景生成与后期素材整合，独立推动项目视觉方案落地，项目已被爱奇艺收购。',
   },
   {
-    title: '女频虐恋demo',
-    tag: '女频短剧 / 情绪叙事',
-    text: '围绕人物关系、情绪递进与镜头氛围建立短剧化视觉表达，突出情感冲突和角色状态。',
+    title: '科普不当法人demo',
+    tag: '高校科普 / 信息转译',
+    text: '面向高校发布，将专业内容转化为清晰易懂的视觉科普短片，兼顾信息准确、节奏与传播表达。',
   },
   {
     title: '《极盗者》预告片',
@@ -90,85 +83,17 @@ const projects = [
   },
 ];
 
-const videos: PortfolioVideo[] = [
-  {
-    title: '女频虐恋demo',
-    type: 'AI短剧',
-    description: '女频情绪向短剧片段，适合展示人物关系、氛围营造与情感冲突。',
-    videoSrc: '/videos/nvpin-nuelian-demo.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1Uaj7ZYEhDEM6FC2goGl9Sg?pwd=k1s5',
-  },
-  {
-    title: '极盗者demo',
-    type: '预告片',
-    description: '高概念视觉预告片，用于展示电影感运镜、节奏控制与光影氛围。',
-    videoSrc: '/videos/jidaozhe-demo.mp4',
-    hlsSrc: '/hls/jidaozhe-demo/index.m3u8',
-    externalUrl: 'https://pan.baidu.com/s/1zg3cFUtvFmCSVrUi3zDrdQ?pwd=y7zn',
-  },
-  {
-    title: '听见',
-    type: '公益短片',
-    description: '公益主题短片，聚焦真实情绪、人物关系与温暖克制的影像表达。',
-    videoSrc: '/videos/tingjian.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1tADL5DX-exnGgEDOqL6GCg?pwd=e5r3',
-  },
-  {
-    title: 'EP02-DEMO',
-    type: '真人短剧',
-    description: '重生年代真人短剧片段，展示年代叙事、人物状态和连续剧情画面。',
-    videoSrc: '/videos/ep02-demo.mp4',
-    externalUrl: 'https://pan.baidu.com/s/15zCvWGXfYyV8giewFUcTdQ?pwd=gqxn',
-  },
-  {
-    title: '攻略你你不理demo',
-    type: 'AI动漫',
-    description: 'AI辅助动漫项目片段，展示连续角色动画、分镜生成和风格统一。',
-    videoSrc: '/videos/gonglue-ni-ni-buli-demo.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1mXvgu-uz5y7_y64aMf4p-A?pwd=7d22',
-  },
-  {
-    title: '科普不当法人demo',
-    type: '科普短片',
-    description: '知识科普类短视频作品，适合展示信息转译、脚本节奏和视觉包装。',
-    videoSrc: '/videos/kepu-budang-faren-demo.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1G8MIF7hcso3fpb5ibkR9ng?pwd=8nsu',
-  },
-  {
-    title: '游戏cg测试',
-    type: '游戏CG',
-    description: '游戏风格CG测试片段，展示风格化画面、动作镜头与视觉冲击力。',
-    videoSrc: '/videos/youxi-cg-ceshi.mp4',
-    externalUrl: 'https://pan.baidu.com/s/15LuT_G8Yaed5t3VOt1ob6g?pwd=rzxr',
-  },
-  {
-    title: '正大集团demo',
-    type: '品牌广告',
-    description: '品牌广告宣传片片段，展示商业视觉、产品场景与统一调性控制。',
-    videoSrc: '/videos/zhengda-jituan-demo.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1UujJ6bDxzpvNqZESVwAXNg?pwd=kt9p',
-  },
-  {
-    title: '暗昼',
-    type: '概念短片',
-    description: '氛围向概念短片，适合展示暗调美术、镜头情绪和世界观质感。',
-    videoSrc: '/videos/anzhou.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1-QJNXuhR9ZP3wPYCjdjH8Q?pwd=xy7q',
-  },
-  {
-    title: '1沟通',
-    type: '节日短片',
-    description: '父亲节主题短片，展示节日定制内容、情绪叙事和温情表达。',
-    videoSrc: '/videos/fuqinjie-1-goutong.mp4',
-    externalUrl: 'https://pan.baidu.com/s/1p88HD0Hv3D1ZSDqf1Rvzrg?pwd=dyuy',
-  },
-];
-
 const experiences = [
   {
+    company: 'AI短视频与创意广告合作项目',
+    role: 'AI短视频导演与全流程制作（项目合作）',
+    date: '2026.07 - 至今',
+    text: '独立完成 AI 剧情短视频与创意广告的选题、脚本、人物与场景设定、分镜表演调度、生成、剪辑和发布复盘；单条作品最高56万播放并带来4单成交。',
+  },
+  {
     company: '深圳市燃梦帧画教育科技有限公司',
-    role: 'AI漫剧专项讲师（项目制）',
-    date: '2026.06 - 至今',
+    role: 'AI漫剧专项讲师',
+    date: '2026.06 - 2026.07',
     text: '主导AI漫剧直播课程授课，覆盖仿真人、3D动画、2D动画、商业广告等方向，沉淀课程SOP、提示词模板与新人培训方法。',
   },
   {
@@ -653,10 +578,10 @@ function App() {
 
       <main>
         <section className="hero-section relative isolate min-h-screen overflow-hidden px-5 pb-16 pt-24 sm:px-8 lg:px-10">
-          <video
+          <HlsVideo
             ref={heroVideoRef}
             className="anim-hero-video absolute inset-0 -z-30 h-full w-full object-cover"
-            src={heroVideoEnabled ? HERO_VIDEO : undefined}
+            hlsSrc={heroVideoEnabled ? HERO_HLS : undefined}
             autoPlay
             muted
             loop
@@ -715,13 +640,22 @@ function App() {
                 >
                   了解经历
                 </a>
+                <a
+                  href="/resume.pdf"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-black/28 px-7 py-3.5 text-sm font-black text-white transition hover:bg-white hover:text-black"
+                >
+                  查看简历
+                  <FileText size={18} />
+                </a>
               </div>
             </div>
 
             <div className="hidden pb-6 lg:block">
               <button
                 type="button"
-                onClick={() => setActiveVideo(videos[1])}
+                onClick={() => setActiveVideo(heroVideo)}
                 className="hero-play mx-auto grid h-32 w-32 place-items-center rounded-full border border-[#caa66a]/45 bg-white text-[#17120d] shadow-[0_0_46px_rgba(202,166,106,0.24)] transition hover:scale-105"
                 aria-label="播放极盗者demo"
               >
@@ -764,7 +698,7 @@ function App() {
             </div>
 
             <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-              {videos.map((video) => (
+                    {portfolioVideos.map((video) => (
                 <VideoCard key={video.title} video={video} onOpen={setActiveVideo} />
               ))}
             </div>

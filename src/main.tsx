@@ -16,7 +16,9 @@ import {
 } from 'lucide-react';
 import BorderGlow from './BorderGlow';
 import FlexCarousel from './components/FlexCarousel';
+import ParticleText from './components/ParticleText';
 import PillNav from './components/PillNav';
+import { heroParticleLines } from './heroParticles';
 import './index.css';
 import { toPortfolioCarouselItems } from './portfolioCarousel';
 import { featuredPortfolioTitles, navigationItems } from './siteContent';
@@ -384,7 +386,19 @@ function App() {
   const appRef = React.useRef<HTMLDivElement | null>(null);
   const heroVideoRef = React.useRef<HTMLVideoElement | null>(null);
   const [heroVideoEnabled, setHeroVideoEnabled] = React.useState(false);
+  const [particleTitleReady, setParticleTitleReady] = React.useState(false);
   const [activeVideo, setActiveVideo] = React.useState<PortfolioVideo | null>(null);
+
+  React.useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      setParticleTitleReady(true);
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => setParticleTitleReady(true), 2350);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   React.useEffect(() => {
     const loadHero = () => setHeroVideoEnabled(true);
@@ -417,7 +431,7 @@ function App() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
       gsap.set(root.querySelectorAll('.opening-curtain, .opening-mark'), { display: 'none' });
-      gsap.set(root.querySelectorAll('.motion-card, .motion-title, .motion-media, .hero-word-mask, .hero-kicker, .hero-name, .hero-subtitle, .hero-cta, .hero-play, .hero-status-pill, .anim-nav'), {
+      gsap.set(root.querySelectorAll('.motion-card, .motion-title, .motion-media, .hero-particle-title, .hero-kicker, .hero-name, .hero-subtitle, .hero-cta, .hero-play, .hero-status-pill, .anim-nav'), {
         clearProps: 'all',
       });
       return undefined;
@@ -428,8 +442,7 @@ function App() {
       gsap.set('.opening-mark', { yPercent: 120, opacity: 0 });
       gsap.set('.anim-nav', { y: -34, opacity: 0 });
       gsap.set('.anim-hero-video', { scale: 1.16, filter: 'brightness(0.55) contrast(1.18)' });
-      gsap.set('.hero-word-mask', { clipPath: 'inset(0 0 100% 0)' });
-      gsap.set('.hero-word', { yPercent: 72, scaleX: 0.82, transformOrigin: 'left center' });
+      gsap.set('.hero-particle-title', { y: 28, opacity: 0 });
       gsap.set('.hero-kicker, .hero-name, .hero-subtitle, .hero-cta, .hero-play, .hero-status-pill', {
         y: 36,
         opacity: 0,
@@ -443,8 +456,7 @@ function App() {
         .to('.anim-hero-video', { scale: 1, filter: 'brightness(0.78) contrast(1.08)', duration: 2.4, ease: 'expo.out' }, 1.3)
         .to('.anim-nav', { y: 0, opacity: 1, duration: 1.0 }, 1.62)
         .to('.hero-kicker, .hero-name', { y: 0, opacity: 1, duration: 1.0, stagger: 0.12 }, 1.76)
-        .to('.hero-word-mask', { clipPath: 'inset(0 0 0% 0)', duration: 1.15, stagger: 0.16, ease: 'expo.inOut' }, 1.92)
-        .to('.hero-word', { yPercent: 0, scaleX: 1, duration: 1.28, stagger: 0.16, ease: 'expo.out' }, 2.02)
+        .to('.hero-particle-title', { y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }, 1.92)
         .to('.hero-subtitle', { y: 0, opacity: 1, duration: 1.05 }, 2.52)
         .to('.hero-cta, .hero-play, .hero-status-pill', { y: 0, opacity: 1, duration: 1.0, stagger: 0.08 }, 2.72);
 
@@ -589,10 +601,32 @@ function App() {
                 <span>film / commercial / aigc production / 2026</span>
               </div>
 
-              <h1 className="hero-title max-w-4xl text-[clamp(4.2rem,11vw,9.2rem)] font-black uppercase leading-[0.78] tracking-[-0.08em]">
-                <span className="hero-word-mask block overflow-hidden pb-2"><span className="hero-word block">FILM</span></span>
-                <span className="hero-word-mask block overflow-hidden pb-2"><span className="hero-word hero-title-outline block">AIGC</span></span>
-                <span className="hero-word-mask block overflow-hidden pb-2"><span className="hero-word block text-[#caa66a] drop-shadow-[0_0_20px_rgba(202,166,106,0.35)]">DESIGN</span></span>
+              <h1 className="hero-particle-title max-w-4xl" aria-label="FILM AIGC DESIGN">
+                <div className="h-[16rem] sm:h-[21rem] lg:h-[25rem]">
+                  {particleTitleReady && heroParticleLines.map((line) => (
+                    <div key={line.text} className="h-1/3">
+                      <ParticleText
+                        text={line.text}
+                        particleSize={1.7}
+                        density={7}
+                        color={line.color}
+                        highlightColor={line.highlightColor}
+                        scatter={108}
+                        gatherDuration={1450}
+                        stagger={360}
+                        pointerRepel={28}
+                        repelRadius={105}
+                        idleDrift={0.22}
+                        trigger="hover"
+                        fontSize="clamp(4.2rem, 11vw, 9.2rem)"
+                        fontWeight={900}
+                        fontFamily="Inter, Noto Sans SC, Microsoft YaHei, sans-serif"
+                        glow
+                        className="hero-particle-line"
+                      />
+                    </div>
+                  ))}
+                </div>
               </h1>
 
               <p className="hero-subtitle mt-7 border-l-2 border-[#b88a4a] pl-4 text-xl font-black tracking-normal text-white sm:text-2xl">

@@ -711,6 +711,7 @@ function App() {
                 radius={12}
                 squeeze={0.14}
                 focusOnClick={false}
+                captureWheel={false}
                 captions
                 onSelect={(_, item) => setActiveVideo(item.video)}
               />

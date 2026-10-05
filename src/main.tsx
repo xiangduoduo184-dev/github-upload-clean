@@ -10,15 +10,16 @@ import {
   Film,
   FileText,
   Layers3,
-  Menu,
   Play,
   Wand2,
   X,
 } from 'lucide-react';
 import BorderGlow from './BorderGlow';
 import FlexCarousel from './components/FlexCarousel';
+import PillNav from './components/PillNav';
 import './index.css';
 import { toPortfolioCarouselItems } from './portfolioCarousel';
+import { featuredPortfolioTitles, navigationItems } from './siteContent';
 import { selectVideoDelivery } from './videoDelivery';
 import { heroVideo, portfolioVideos, type PortfolioVideo } from './portfolioVideos';
 
@@ -114,56 +115,28 @@ const experiences = [
 ];
 
 function Navigation() {
+  const [activeHref, setActiveHref] = React.useState('#top');
+
+  React.useEffect(() => {
+    const updateActiveItem = () => {
+      const nextActive = [...navigationItems]
+        .reverse()
+        .find((item) => {
+          if (item.href === '#top') return window.scrollY < 120;
+          const section = document.getElementById(item.href.slice(1));
+          return section ? section.getBoundingClientRect().top <= 160 : false;
+        });
+
+      setActiveHref(nextActive?.href ?? '#top');
+    };
+
+    updateActiveItem();
+    window.addEventListener('scroll', updateActiveItem, { passive: true });
+    return () => window.removeEventListener('scroll', updateActiveItem);
+  }, []);
+
   return (
-    <nav className="anim-nav fixed left-0 right-0 top-0 z-50 border-b border-white/12 bg-black/45 px-5 py-3 backdrop-blur-md sm:px-8">
-      <div className="mx-auto flex max-w-7xl items-center justify-between text-[10px] uppercase tracking-[0.28em]">
-        <a href="#top" className="flex items-center gap-3 text-white">
-          <span className="grid h-8 w-8 place-items-center rounded-full border border-white/70 text-[10px] font-black text-white">
-            XZ
-          </span>
-          <span className="text-sm font-black tracking-normal text-white">向贞战</span>
-          <span className="hidden text-[10px] font-bold tracking-[0.24em] text-white/54 sm:inline">v2026</span>
-        </a>
-
-        <div className="hidden items-center gap-2 md:flex">
-          {[
-            ['HOME', '#top'],
-            ['INDEX', '#作品'],
-            ['PROFILE', '#经历'],
-            ['SKILLS', '#流程'],
-            ['PROJECTS', '#作品'],
-            ['CONTACT', '#联系'],
-          ].map(([item, href], index) => (
-            <a
-              key={item}
-              href={href}
-              className={`rounded-full px-3 py-1.5 font-bold transition ${
-                index === 0
-                  ? 'bg-[#b88a4a] text-black shadow-[0_0_18px_rgba(184,138,74,0.36)]'
-                  : 'text-white/62 hover:text-white'
-              }`}
-            >
-              {item}
-            </a>
-          ))}
-        </div>
-
-        <a
-          href="mailto:2256415883@qq.com"
-          className="hidden rounded-full border border-white/60 px-4 py-2 text-[10px] font-black tracking-[0.24em] text-white transition hover:bg-white hover:text-black md:inline-flex"
-        >
-          TALK TO ME
-        </a>
-
-        <button
-          type="button"
-          aria-label="打开菜单"
-          className="inline-grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/[0.06] text-white md:hidden"
-        >
-          <Menu size={20} />
-        </button>
-      </div>
-    </nav>
+    <PillNav items={navigationItems} activeHref={activeHref} />
   );
 }
 
@@ -700,21 +673,43 @@ function App() {
               </div>
             </div>
 
-            <div className="mt-10 h-[390px] sm:h-[500px] lg:h-[600px]">
-              <FlexCarousel
-                items={portfolioCarouselItems}
-                preset="liquid"
-                intro="rise"
-                fit="landscape"
-                cardHeight={0.58}
-                gap={18}
-                radius={12}
-                squeeze={0.14}
-                focusOnClick={false}
-                captureWheel={false}
-                captions
-                onSelect={(_, item) => setActiveVideo(item.video)}
-              />
+            <div className="mt-10">
+              <div className="mb-5 grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                {featuredPortfolioTitles.map((title, index) => {
+                  const item = portfolioCarouselItems.find((portfolioItem) => portfolioItem.title === title)!;
+
+                  return (
+                    <button
+                      key={title}
+                      type="button"
+                      onClick={() => setActiveVideo(item.video)}
+                      className="group flex min-h-14 items-center justify-between gap-3 rounded-[8px] border border-white/14 bg-white/[0.04] px-4 text-left transition hover:border-[#d3a359]/75 hover:bg-[#d3a359]/12"
+                    >
+                      <span className="flex min-w-0 items-center gap-3">
+                        <span className="text-xs font-black tracking-[0.16em] text-[#d3a359]">{String(index + 1).padStart(2, '0')}</span>
+                        <span className="truncate text-sm font-bold text-white">{title}</span>
+                      </span>
+                      <Play size={15} className="shrink-0 text-white/50 transition group-hover:text-[#f4d35e]" fill="currentColor" />
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="h-[390px] sm:h-[500px] lg:h-[600px]">
+                <FlexCarousel
+                  items={portfolioCarouselItems}
+                  preset="liquid"
+                  intro="rise"
+                  fit="landscape"
+                  cardHeight={0.58}
+                  gap={18}
+                  radius={12}
+                  squeeze={0.14}
+                  focusOnClick={false}
+                  captureWheel={false}
+                  captions
+                  onSelect={(_, item) => setActiveVideo(item.video)}
+                />
+              </div>
             </div>
           </div>
         </section>
@@ -784,7 +779,7 @@ function App() {
           </div>
         </section>
 
-        <section className="motion-section px-5 py-20 sm:px-8 lg:px-10">
+        <section id="项目" className="motion-section px-5 py-20 sm:px-8 lg:px-10">
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
               <p className="section-kicker">Selected Projects</p>

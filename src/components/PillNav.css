@@ -1,0 +1,162 @@
+.pill-nav-container {
+  pointer-events: none;
+  position: fixed;
+  top: 0.9rem;
+  left: 0;
+  z-index: 50;
+  width: 100%;
+}
+
+.pill-nav {
+  pointer-events: auto;
+  display: flex;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  align-items: center;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(7, 7, 7, 0.82);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.24);
+  backdrop-filter: blur(16px);
+}
+
+.pill-nav__brand,
+.pill-nav__item,
+.pill-nav__menu {
+  text-decoration: none;
+}
+
+.pill-nav__brand {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid rgba(202, 166, 106, 0.78);
+  border-radius: 999px;
+  color: #f3e6cf;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.pill-nav__desktop {
+  display: flex;
+  gap: 3px;
+  padding: 3px;
+}
+
+.pill-nav__item {
+  position: relative;
+  display: inline-flex;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 0.88rem;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.pill-nav__item:hover,
+.pill-nav__item.is-active {
+  color: #16120d;
+}
+
+.pill-nav__item.is-active {
+  background: #d3a359;
+}
+
+.pill-nav__circle {
+  position: absolute;
+  left: 50%;
+  z-index: 0;
+  display: block;
+  border-radius: 50%;
+  background: #d3a359;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pill-nav__label-stack {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  line-height: 1;
+}
+
+.pill-nav__label,
+.pill-nav__label-hover {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.pill-nav__label-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #16120d;
+}
+
+.pill-nav__menu,
+.pill-nav__mobile-menu {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .pill-nav {
+    width: calc(100% - 2rem);
+    max-width: none;
+    justify-content: space-between;
+    padding: 3px;
+  }
+
+  .pill-nav__desktop {
+    display: none;
+  }
+
+  .pill-nav__menu {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 0;
+    border-radius: 999px;
+    background: #d3a359;
+    color: #16120d;
+    cursor: pointer;
+  }
+
+  .pill-nav__mobile-menu {
+    pointer-events: auto;
+    display: grid;
+    gap: 4px;
+    width: calc(100% - 2rem);
+    margin: 0.55rem auto 0;
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 8px;
+    background: rgba(7, 7, 7, 0.94);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(16px);
+  }
+
+  .pill-nav__mobile-menu a {
+    padding: 0.78rem 1rem;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .pill-nav__mobile-menu a.is-active {
+    background: #d3a359;
+    color: #16120d;
+  }
+}

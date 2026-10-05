@@ -16,13 +16,16 @@ import {
   X,
 } from 'lucide-react';
 import BorderGlow from './BorderGlow';
+import FlexCarousel from './components/FlexCarousel';
 import './index.css';
+import { toPortfolioCarouselItems } from './portfolioCarousel';
 import { selectVideoDelivery } from './videoDelivery';
 import { heroVideo, portfolioVideos, type PortfolioVideo } from './portfolioVideos';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HERO_HLS = heroVideo.hlsSrc;
+const portfolioCarouselItems = toPortfolioCarouselItems(portfolioVideos);
 
 const stats = [
   { value: '60万', label: '抖音、快手双端播放量' },
@@ -697,10 +700,20 @@ function App() {
               </div>
             </div>
 
-            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-                    {portfolioVideos.map((video) => (
-                <VideoCard key={video.title} video={video} onOpen={setActiveVideo} />
-              ))}
+            <div className="mt-10 h-[390px] sm:h-[500px] lg:h-[600px]">
+              <FlexCarousel
+                items={portfolioCarouselItems}
+                preset="liquid"
+                intro="rise"
+                fit="landscape"
+                cardHeight={0.58}
+                gap={18}
+                radius={12}
+                squeeze={0.14}
+                focusOnClick={false}
+                captions
+                onSelect={(_, item) => setActiveVideo(item.video)}
+              />
             </div>
           </div>
         </section>
